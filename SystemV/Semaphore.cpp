@@ -72,8 +72,9 @@ namespace liuxin
 		sop.sem_num = 0;
 		sop.sem_op = n;
 		sop.sem_flg = flag;
-		if (semop(semid, &sop, 1) == -1)
-			if (flag == IPC_NOWAIT)
+		while (semop(semid, &sop, 1) == -1)
+			if (errno == EINTR) continue;
+			else if (errno == EAGAIN)
 				return false;
 			else
 				printErrorMsg("Semop fail!");
