@@ -10,12 +10,14 @@ namespace liuxin
 		~Semaphore();
 		void acquire(int n = 1);
 		bool tryAcquire(int n = 1);
+		// Note: This function is equivalent to call acquire() if timeout is negative.
+		bool tryAcquire(int n, int timeout);
 		int available() const;
 		void release(int n = 1);
 
 		Semaphore(const Semaphore &) = delete;
-		// Semaphore(const Semaphore &&) = delete;
 		Semaphore operator=(const Semaphore &) = delete;
+		// Semaphore(const Semaphore &&) = delete;
 		// Semaphore operator=(const Semaphore &&) = delete;
 
 	private:
@@ -32,7 +34,8 @@ namespace liuxin
 
 		void CreateSem(key_t __key, int n);
 		bool Semop(int semid, int n, short int flag) const;
+		bool Semtimedop(int semid, int n, uint64_t timeout)const;
 		int Semctl(int semid, int semnum, int cmd, semun* arg = NULL) const;
-		void printErrorMsg(const char *msg) const;
+		void printErrorMsg(const char *msg)const;
 	};
 }

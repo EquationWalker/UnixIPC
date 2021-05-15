@@ -1,8 +1,6 @@
 #include "Semaphore.h"
 using namespace std;
 using namespace liuxin;
-using namespace std;
-void aa();
 
 int main()
 {
@@ -28,32 +26,4 @@ int main()
     //aa();
 
     return 0;
-}
-union semun
-{
-    int val;               /* Value for SETVAL */
-    struct semid_ds *buf;  /* Buffer for IPC_STAT, IPC_SET */
-    unsigned short *array; /* Array for GETALL, SETALL */
-#if defined(__linux__)
-    struct seminfo *__buf; /* Buffer for IPC_INFO (Linux-specific) */
-#endif
-};
-
-void aa()
-{
-
-    int id = semget(12234, 1, IPC_CREAT | 0666);
-    semun a;
-    a.val = 1;
-    if (-1 == semctl(id, 0, SETVAL, a))
-        puts("sasa");
-    printf("id :%d\n", id);
-
-    sembuf arg;
-    arg.sem_flg = SEM_UNDO;
-    arg.sem_num = 0;
-    arg.sem_op = 2;
-
-    if (-1 == semop(id, &arg, 1))
-        puts(strerror(errno));
 }
