@@ -76,8 +76,7 @@ namespace liuxin
 			if (errno == EINTR) continue;
 			else if (errno == EAGAIN)
 				return false;
-			else
-				printErrorMsg("Semop fail!");
+			else printErrorMsg("Semop fail!");
 		return true;
 	}
 
@@ -90,8 +89,11 @@ namespace liuxin
 		timespec tim;
 		tim.tv_sec = timeout / 1000;
 		tim.tv_nsec = (timeout % 1000) * 1000000;
-		if (semtimedop(semid, &sop, 1, &tim) == -1)
+		while (semtimedop(semid, &sop, 1, &tim) == -1)
+			if (errno == EINTR) continue;
+			else if (errno == EAGAIN)
 				return false;
+			else printErrorMsg("Semop fail!");
 		return true;
 	}
 	int Semaphore::Semctl(int semid, int semnum, int cmd, semun *arg) const
