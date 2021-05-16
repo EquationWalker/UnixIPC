@@ -15,15 +15,10 @@ int main()
         return 0;
     }
     Semaphore lock(ftok(".", 0));
-    //printf("1 av :%d\n", lock.available());
-    
     lock.acquire();
     puts("parent!");
-   // printf("2 av :%d\n", lock.available());
     lock.release();
-    //printf("3 av :%d\n", lock.available());
-
-    //aa();
-
+    wait(NULL);
+    lock.destroy();
     return 0;
 }

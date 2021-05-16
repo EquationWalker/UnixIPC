@@ -11,4 +11,5 @@
 #include <fcntl.h>
 #include <sys/sem.h>
 #include <sys/ipc.h>
+#include <sys/wait.h>
 #include <error.h>

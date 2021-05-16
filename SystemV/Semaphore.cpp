@@ -5,12 +5,9 @@ namespace liuxin
 	{
 		CreateSem(key, n);
 	}
-	Semaphore::~Semaphore()
+	void Semaphore::destroy()const
 	{
-		/*int sz = Semctl(m_semid, 0, GETZCNT) + Semctl(m_semid, 0, GETNCNT);
-		while (sz > 0)
-			sz = Semctl(m_semid, 0, GETZCNT) + Semctl(m_semid, 0, GETNCNT);
-		semctl(m_semid, 0, IPC_RMID);*/
+		semctl(m_semid, 0, IPC_RMID);
 	}
 
 	void Semaphore::acquire(int n)
@@ -107,7 +104,7 @@ namespace liuxin
 	}
 	void Semaphore::printErrorMsg(const char *msg) const
 	{
-		semctl(m_semid, 0, IPC_RMID);
+		destroy();
 		puts(msg);
 		fprintf(stderr, "errnum: %d err_msg: %s\n", errno, strerror(errno));
 		exit(EXIT_FAILURE);

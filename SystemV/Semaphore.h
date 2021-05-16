@@ -7,13 +7,15 @@ namespace liuxin
 	{
 	public:
 		explicit Semaphore(key_t key, int n = 1);
-		~Semaphore();
+		
 		void acquire(int n = 1);
 		bool tryAcquire(int n = 1);
 		// Note: This function is equivalent to call acquire() if timeout is negative.
 		bool tryAcquire(int n, int timeout);
 		int available() const;
 		void release(int n = 1);
+		// 释放信号量
+		void destroy()const;
 
 		Semaphore(const Semaphore &) = delete;
 		Semaphore operator=(const Semaphore &) = delete;
